@@ -15,8 +15,8 @@ train_Y = numpy.asarray([1.7, 2.76, 2.09, 3.19, 1.694, 1.573, 3.366, 2.596, 2.53
 sample_len = train_X.shape[0]
 
 # placeholder (X, Y) for training data
-X = tf.placeholder(tf.float32)
-Y = tf.placeholder(tf.float32)
+X = tf.compat.v1.placeholder(tf.float32)
+Y = tf.compat.v1.placeholder(tf.float32)
 
 # training data, initial_value set a random number
 w = tf.Variable(initial_value=1., name="weight")
@@ -27,12 +27,12 @@ predict = tf.add(tf.multiply(w, X), b)
 cost = tf.reduce_sum(tf.pow(predict - Y, 2)) / (2 * sample_len)
 
 # training method
-optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
+optimizer = tf.compat.v1.train.GradientDescentOptimizer(learning_rate).minimize(cost)
 
 
-init = tf.global_variables_initializer()
+init = tf.compat.v1.global_variables_initializer()
 
-with tf.Session() as session:
+with tf.compat.v1.Session() as session:
 
     session.run(init)
     # train
@@ -59,7 +59,6 @@ with tf.Session() as session:
     plt.ylabel("Y")
     plt.legend()
     plt.savefig("training data.png")
-    plt.show()
 
     # -------------------------------------not personal code---------------------------------------------------------
     # Testing example, as requested (Issue #2)
@@ -78,4 +77,3 @@ with tf.Session() as session:
     plt.plot(train_X, session.run(w) * train_X + session.run(b), label='Fitted line')
     plt.legend()
     plt.savefig('test data.png')
-    plt.show()
